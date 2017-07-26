@@ -42,6 +42,9 @@ function blogin_setup() {
 	 */
 	add_theme_support( 'post-thumbnails' );
 
+	// Add logo upload in customizer WordPress 4.5+
+	 add_theme_support( 'custom-logo' );
+
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
 		'menu-1' => esc_html__( 'Primary', 'blogin' ),
@@ -96,6 +99,28 @@ function blogin_content_width() {
 add_action( 'after_setup_theme', 'blogin_content_width', 0 );
 
 /**
+ * Displays the optional custom logo.
+ *
+ * Does nothing if the custom logo is not available.
+ *
+ */
+if ( !function_exists( 'blogin_the_custom_logo' ) ) :
+	function blogin_the_custom_logo() {
+	    // Try to retrieve the Custom Logo
+	    $output = '';
+	    if (function_exists('get_custom_logo'))
+	        $output = get_custom_logo();
+
+	    // Nothing in the output: Custom Logo is not supported, or there is no selected logo
+	    // In both cases we display the site's name
+	    if (empty($output))
+	        $output = '<a class="navbar-brand" href="' . esc_url(home_url('/')) . '">' . get_bloginfo('name') . '</a>';
+
+	    echo $output;
+	}
+endif;
+
+/**
  * Widgets
  */
 require get_template_directory() . '/inc/widgets.php';
@@ -119,6 +144,11 @@ require get_template_directory() . '/inc/template-functions.php';
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
+/**
+ * Bootstrap Walker Menu
+ */
+require get_template_directory() . '/inc/bootstrap-walker.php';
 
 /**
  * Load Jetpack compatibility file.

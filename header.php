@@ -24,33 +24,40 @@
 <div id="page" class="site">
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'blogin' ); ?></a>
 
-	<header id="masthead" class="site-header">
-		<div class="site-branding">
-			<?php
-			the_custom_logo();
-			if ( is_front_page() && is_home() ) : ?>
-				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-			<?php else : ?>
-				<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-			<?php
-			endif;
+	<header id="masthead" class="site-header" role="banner">
+	    <nav role="navigation" id="navbar-main">
+	      <div class="navbar navbar-inverse navbar-static-top">
+	        <div class="container">
+	          <!-- .navbar-toggle is used as the toggle for collapsed navbar content -->
+	          <div class="navbar-header">
+	            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+	              <span class="icon-bar"></span>
+	              <span class="icon-bar"></span>
+	              <span class="icon-bar"></span>
+	            </button>
 
-			$description = get_bloginfo( 'description', 'display' );
-			if ( $description || is_customize_preview() ) : ?>
-				<p class="site-description"><?php echo $description; /* WPCS: xss ok. */ ?></p>
-			<?php
-			endif; ?>
-		</div><!-- .site-branding -->
+	            <?php blogin_the_custom_logo(); ?>
+	             
+	          </div>
 
-		<nav id="site-navigation" class="main-navigation">
-			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'blogin' ); ?></button>
-			<?php
-				wp_nav_menu( array(
-					'theme_location' => 'menu-1',
-					'menu_id'        => 'primary-menu',
-				) );
-			?>
-		</nav><!-- #site-navigation -->
+	          <div class="navbar-collapse collapse navbar-responsive-collapse">
+	            <?php
+	            $args = array(
+	              'theme_location' => 'menu-1',
+	              'depth'      => 2,
+	              'container'  => false,
+	              'menu_class'     => 'nav navbar-nav',
+	              'walker'     => new Bootstrap_Walker_Nav_Menu()
+	              );
+	            if (has_nav_menu('menu-1')) {
+	              wp_nav_menu($args);
+	            }
+	            ?>
+
+	          </div>
+	        </div>
+	      </div>           
+	    </nav>
 	</header><!-- #masthead -->
 
 	<div id="content" class="site-content">
