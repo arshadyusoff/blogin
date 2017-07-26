@@ -1,8 +1,8 @@
 {
-  "name": "strapped",
+  "name": "Blogin",
   "version": "1.0.0",
   "homepage": "",
-  "description": "Bootstrap 3 WordPress theme",
+  "description": "Bootstrap 3 basic blog WordPress theme",
   "moduleType": [
     "node"
   ],
